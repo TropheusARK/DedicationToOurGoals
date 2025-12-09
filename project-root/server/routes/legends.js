@@ -8,10 +8,11 @@ router.get("/", async (req, res) => {
     const result = await pool.query("SELECT * FROM legends ORDER BY id ASC");
     res.json(result.rows);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch legends" });
+    console.error("LEGENDS QUERY ERROR:", err);
+    res.status(500).json({ error: err.message });
   }
 });
+
 
 // Add one legend (optional)
 router.post("/", async (req, res) => {
