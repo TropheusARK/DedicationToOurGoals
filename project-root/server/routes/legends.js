@@ -1,30 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db/pool");
+const db = require("../db"); // <-- USE THE WORKING TUNNEL CONNECTION
 
 // GET all legends
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM legends ORDER BY id ASC");
+    const result = await db.query("SELECT * FROM legends ORDER BY id ASC");
     res.json(result.rows);
   } catch (err) {
     console.error("LEGENDS QUERY ERROR:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Failed to fetch legends" });
   }
 });
 
-
-// Add one legend (optional)
+// Add one legend
 router.post("/", async (req, res) => {
   try {
     const { name, url } = req.body;
-    const result = await pool.query(
+    const result = await db.query(
       "INSERT INTO legends (name, url) VALUES ($1, $2) RETURNING *",
       [name, url]
     );
     res.json(result.rows[0]);
   } catch (err) {
-    console.error(err);
+    console.error("LEGEND INSERT ERROR:", err);
     res.status(500).json({ error: "Failed to create legend" });
   }
 });
