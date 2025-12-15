@@ -1,17 +1,16 @@
-require("dotenv").config();
-const { Client } = require("pg");
+const { Pool } = require("pg");
 
-const client = new Client({
-  host: process.env.PGHOST,
-  port: parseInt(process.env.PGPORT),
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  database: process.env.PGDATABASE,
-  ssl: false   // IMPORTANT: Internal Railway DB does NOT use SSL
+const pool = new Pool({
+  host: "interchange.proxy.rlwy.net",
+  port: 54615,
+  user: "postgres",
+  password: "EqKhfyzfgJgsDJHGdWZzbzWJSUBUYybd",
+  database: "railway",
+  ssl: false
 });
 
-client.connect()
-  .then(() => console.log("Connected to Railway Postgres (INTERNAL HOST)"))
-  .catch(err => console.error("DB Connection Error:", err));
+pool.query("SELECT 1")
+  .then(() => console.log("✅ DB CONNECTED — HARD CODE TEST PASSED"))
+  .catch(err => console.error("❌ DB TEST FAILED:", err));
 
-module.exports = client;
+module.exports = pool;
