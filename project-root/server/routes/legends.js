@@ -1,17 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const pool = require("../../db/pool");
 
 router.get("/", async (req, res) => {
-  try {
-    const result = await db.query(
-      "SELECT * FROM legends ORDER BY id ASC"
-    );
-    res.json(result.rows);
-  } catch (err) {
-    console.error("LEGENDS QUERY ERROR:", err);
-    res.status(500).json({ error: "Failed to fetch legends" });
-  }
+  const result = await pool.query("SELECT * FROM legends ORDER BY id ASC");
+  res.json(result.rows);
+});
+
+router.post("/", async (req, res) => {
+  const { name, url } = req.body;
+
+  const result = await pool.query(
+    "INSERT INTO legends (name, url) VALUES ($1, $2) RETURNING *",
+    [name, url]
+  );
+
+  res.json(result.rows[0]);
 });
 
 module.exports = router;

@@ -1,3 +1,6 @@
+console.log("✅ CORRECT SERVER FILE LOADED");
+
+
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -11,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // routes
+
 app.use("/api/legends", legendsRouter);
 
 // health check
