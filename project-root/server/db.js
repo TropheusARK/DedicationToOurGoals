@@ -1,4 +1,5 @@
 const { Pool } = require("pg");
+require("dotenv").config();
 
 const pool = new Pool({
   host: "interchange.proxy.rlwy.net",
@@ -6,10 +7,12 @@ const pool = new Pool({
   user: "postgres",
   password: "EqKhfyzfgJgsDJHGdWZzbzWJSUBUYybd",
   database: "railway",
-  ssl: false
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
-pool.query("SELECT 1")
+pool.connect()
   .then(() => console.log("✅ DB CONNECTED — HARD CODE TEST PASSED"))
   .catch(err => console.error("❌ DB TEST FAILED:", err));
 

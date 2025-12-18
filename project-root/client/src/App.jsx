@@ -56,19 +56,11 @@ function App() {
       <h2>Add Legend</h2>
 
       <form onSubmit={addLegend}>
-        <input
-          name="name"
-          placeholder="Name"
-          required
-        />
+        <input name="name" placeholder="Name" required />
         <br />
-        <input
-          name="url"
-          placeholder="URL"
-          required
-        />
+        <input name="url" placeholder="URL" required />
         <br />
-        <button type="submit">Add</button>
+        <button>Add</button>
       </form>
     </div>
   );
