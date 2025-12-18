@@ -1,29 +1,25 @@
-console.log("✅ CORRECT SERVER FILE LOADED");
-
-
-require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-const legendsRouter = require("./routes/legends");
+const legendsRoutes = require("./routes/legends");
 
 const app = express();
 
-// middleware
 app.use(cors());
 app.use(express.json());
 
-// routes
+// API routes
+app.use("/api/legends", legendsRoutes);
 
-app.use("/api/legends", legendsRouter);
-
-// health check
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok" });
+// health check (important for sanity)
+app.get("/", (req, res) => {
+  res.send("API running");
 });
 
-// start server
-const PORT = process.env.PORT || 4000;
+// 🚨 THIS IS THE ONLY CORRECT PORT SETUP
+const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+

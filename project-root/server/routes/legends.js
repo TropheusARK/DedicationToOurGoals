@@ -1,30 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db.js");
+const pool = require("../db");
 
 // GET all legends
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM legends ORDER BY id ASC");
+    const result = await pool.query(
+      "SELECT * FROM legends ORDER BY id ASC"
+    );
     res.json(result.rows);
   } catch (err) {
-    console.error(err);
+    console.error("LEGENDS QUERY ERROR:", err);
     res.status(500).json({ error: "Failed to fetch legends" });
   }
 });
 
-// POST one legend
+// POST new legend
 router.post("/", async (req, res) => {
-  const { name, url } = req.body;
-
   try {
+    const { name, url } = req.body;
+
     const result = await pool.query(
       "INSERT INTO legends (name, url) VALUES ($1, $2) RETURNING *",
       [name, url]
     );
+
     res.json(result.rows[0]);
   } catch (err) {
-    console.error(err);
+    console.error("LEGENDS INSERT ERROR:", err);
     res.status(500).json({ error: "Failed to create legend" });
   }
 });
