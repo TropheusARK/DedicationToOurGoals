@@ -1,5 +1,6 @@
 Warriors Fullstack AppA full-stack web application featuring a Node.js/Express backend and a React frontend, designed for seamless deployment on Railway.🚀 
 
+I used Chatgpt and Gemini
 Note: I focused on deployment for this project, rather than looks, but after multiple attemps, i failed to deploy my project.
 
 ### Database Migration
